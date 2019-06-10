@@ -1,40 +1,35 @@
 package org.spekframework.spring
 
-import org.jetbrains.spek.api.Spek
-import org.jetbrains.spek.api.dsl.it
+import org.spekframework.spek2.Spek
+import org.spekframework.spek2.style.specification.describe
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Import
 import org.springframework.test.context.ContextConfiguration
+import kotlin.test.assertTrue
 
-class Foo
-class Bar(val foo: Foo)
-
-@Configuration
-class MyConfiguration {
-
-    @Bean("foo")
-    fun foo() = Foo()
-
-    @Bean
-    fun bar(foo: Foo): Bar {
-        return Bar(foo)
+class Foo {
+    fun bar() {
+        println("Hello!")
     }
 }
 
-@ContextConfiguration(classes = arrayOf(MyConfiguration::class))
+@Configuration
+open class MyConfiguration {
+    @Bean("foo")
+    open fun foo() = Foo()
+}
+
+@ContextConfiguration(classes = [MyConfiguration::class])
 object SampleInjectSpec: Spek({
     val context = createContext(SampleInjectSpec::class)
 
     val foo = context.inject<Foo>()
-    val bar = context.inject<Bar>()
 
-    it("should be something") {
-        println(foo())
-        println(bar())
-    }
-
-    it("should be another") {
-        println(foo())
-        println(bar())
+    describe("blah blah") {
+        it("should be return true") {
+            foo.bar()
+            assertTrue(true)
+        }
     }
 })

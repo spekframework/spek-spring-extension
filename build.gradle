@@ -47,14 +47,10 @@ afterEvaluate {
 }
 
 apply plugin: 'kotlin'
-apply plugin: 'kotlin-spring'
 apply plugin: 'org.junit.platform.gradle.plugin'
 
 repositories {
-    mavenCentral()
-    maven {
-        url "https://dl.bintray.com/jetbrains/spek"
-    }
+    jcenter()
 }
 
 dependencyManagement {
@@ -65,33 +61,31 @@ dependencyManagement {
             entry 'spring-test'
         }
 
-        dependencySet(group: 'org.jetbrains.spek', version: '1.1.0-beta3') {
-            entry 'spek-api'
-            entry 'spek-junit-platform-engine'
+        dependencySet(group: 'org.spekframework.spek2', version: '2.0.5') {
+            entry 'spek-dsl-jvm'
+            entry 'spek-runner-junit5'
         }
 
         dependencySet(group: 'org.jetbrains.kotlin', version: kotlinVersion) {
-            entry 'kotlin-stdlib'
+            entry 'kotlin-stdlib-jdk8'
             entry 'kotlin-reflect'
+            entry 'kotlin-test'
         }
     }
 }
 
 dependencies {
-    compile 'org.jetbrains.kotlin:kotlin-stdlib'
+    compile 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
     compile 'org.jetbrains.kotlin:kotlin-reflect'
-    compile 'org.jetbrains.spek:spek-api'
+    compile 'org.jetbrains.kotlin:kotlin-test'
     compile 'org.springframework:spring-context'
     compile 'org.springframework:spring-test'
-
-    testRuntime 'org.jetbrains.spek:spek-junit-platform-engine'
+    compile "org.spekframework.spek2:spek-dsl-jvm"
+    testRuntime "org.spekframework.spek2:spek-runner-junit5"
 }
 
-junitPlatform {
-    platformVersion '1.0.0-M3'
-    filters {
-        engines {
-            include 'spek'
-        }
+test {
+    useJUnitPlatform {
+        includeEngines 'spek2'
     }
 }
