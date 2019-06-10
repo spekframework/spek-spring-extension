@@ -1,5 +1,5 @@
-# Spring Extension for Spek
-This is a proof of concept for writing spring integration tests in Spek
+# Spring Extension for Spek2
+This is a proof of concept for writing spring integration tests in Spek2
 
 ## Limitations
 - Currently, only injecting beans is supported.
