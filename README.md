@@ -4,14 +4,16 @@ This is a proof of concept for writing spring integration tests in Spek
 ## Limitations
 - Currently, only injecting beans is supported.
     ```kotlin
-    @ContextConfiguration(classes = arrayOf(MyConfiguration::class))
+    @ContextConfiguration(classes = [MyConfiguration::class])
     object MySpec: Spek({
         val context = createContext(MySpec::class)
         val foo = context.inject<Foo>()
         // val foo: Foo by context.inject()
         
-        it("blah blah blah") {
-            foo.doSomething()
+        describe("blah blah") {
+            it("should be blah") {
+                foo.doSomething()
+            }
         }
     })
     ```
